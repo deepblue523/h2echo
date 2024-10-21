@@ -178,15 +178,15 @@ public class H2Echo {
     }
 
     // Get the expected script syntax from the annotation.
-    String scriptPath = null;
+    String defaultScriptPath = DEFAULT_SCRIPT_PATH;
     ScriptSyntax defaultSyntax = ScriptSyntax.MARIA_DB;
 
     if (object.getClass().isAnnotationPresent(EnableH2Echo.class)) {
-      scriptPath = object.getClass().getAnnotation(EnableH2Echo.class).scriptPath();
+      defaultScriptPath = object.getClass().getAnnotation(EnableH2Echo.class).scriptPath();
       defaultSyntax = object.getClass().getAnnotation(EnableH2Echo.class).syntax();
     }
 
-    if (scriptPath == null) {
+    if (defaultScriptPath == null) {
         throw new IllegalArgumentException("For @EnableH2Echo, a Null scriptPath is not supported.");
     }
 
@@ -205,9 +205,12 @@ public class H2Echo {
     for (Field field : object.getClass().getDeclaredFields()) {
       if (field.isAnnotationPresent(EchoDao.class)) {
         // Get the expected script syntax from the annotation.
+        String scriptPath = defaultScriptPath;
         ScriptSyntax scriptSyntax = field.getAnnotation(EchoDao.class).syntax();
+
         if (scriptSyntax == ScriptSyntax.DEFAULT) {
-            scriptSyntax = defaultSyntax;
+          defaultScriptPath = object.getClass().getAnnotation(EnableH2Echo.class).scriptPath();
+          scriptSyntax = defaultSyntax;
         }
 
         // Construct our DAO object using the datasource we prepared.
