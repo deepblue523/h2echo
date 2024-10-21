@@ -10,7 +10,7 @@ The `H2Echo` class provides utility methods to run SQL scripts on an H2 database
 # SQL Scripts Handling
 1.File Retrieval: The method  `getFileList`  retrieves a list of SQL script files from a specified resource directory.
 
-2. The  `sortFlywayScriptsByVersion`  method sorts these scripts numerically by their version, extracted from the filename (e.g.,  `V1.0__script.sql` ).  This sorting scheme is compatible with Flyway's default behavior, but may be extended later to support other schemes.
+2. The  `sortSqlScriptsByVersion`  method sorts these scripts numerically by their version, extracted from the filename (e.g.,  `V1.0__script.sql` ).  This sorting scheme is compatible with Flyway's default behavior, but may be extended later to support other schemes.
 
 3. Running Scripts:
     - Main Execution: The core method  `runSqlScriptsOnH2`  processes each script, adjusting SQL syntax where necessary to accommodate H2's limitations compared to MariaDB.
@@ -32,7 +32,7 @@ The `H2Echo` class provides utility methods to run SQL scripts on an H2 database
 
 Overall, this utility class is designed to streamline the process of setting up a test database environment by automating the execution and adaptation of SQL SQL scripts for use with an H2 database.
 
-## Usage
+## Usage~~~~
 
 The following code snippet shows how to use the utility class to run SQL scripts on a fresh H2 database.  This example is a JUnit test class that is testing DAOs.  
 

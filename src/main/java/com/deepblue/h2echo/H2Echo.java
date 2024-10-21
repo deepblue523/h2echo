@@ -114,7 +114,7 @@ public class H2Echo {
    * 4. It calls `getFileList()` to retrieve a list of SQL SQL scripts from
    *    the `FLYWAY_SCRIPT_PATH` .
    * <p>
-   * 5. The script files are then sorted using `sortFlywayScriptsByVersion()`, which
+   * 5. The script files are then sorted using `sortSqlScriptsByVersion()`, which
    *    orders them based on their version numbers (e.g., V1.0__, V1.1__, etc.).
    * <p>
    * 6. The method sets the schema to PUBLIC.
