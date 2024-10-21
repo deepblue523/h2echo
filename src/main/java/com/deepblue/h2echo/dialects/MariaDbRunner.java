@@ -14,5 +14,5 @@ package com.deepblue.h2echo.dialects;
  * made while running the statements.  This whole thing is in order to avoid
  * maintaining a separate set of scripts for H2, but this approach works.
  */
-public class MariaDbDialectRunner extends MariaDbMySqlCommonRunner {
+public class MariaDbRunner extends MariaDbMySqlRunner {
 }

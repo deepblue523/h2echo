@@ -1,5 +1,7 @@
 package com.deepblue.h2echo.dialects;
 
+import java.util.List;
+
 /***
  * This class contains support methods and data for unit tests.  It offers
  * integration-test-like support within unit tests by running the SQL
@@ -14,5 +16,10 @@ package com.deepblue.h2echo.dialects;
  * made while running the statements.  This whole thing is in order to avoid
  * maintaining a separate set of scripts for H2, but this approach works.
  */
-public class MySqlDialectRunner extends MariaDbMySqlCommonRunner {
+public class H2Runner extends DialectRunnerBase {
+
+  protected void makeStatementAdjustmentsForSyntax(
+          String originalStmtToRunAdj, List<String> finalSqlListToRun) {
+    // Nothing to do for DBs like H2 (it is a 1->1 statement transfer).
+  }
 }

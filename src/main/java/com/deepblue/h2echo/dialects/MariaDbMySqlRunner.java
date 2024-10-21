@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * made while running the statements.  This whole thing is in order to avoid
  * maintaining a separate set of scripts for H2, but this approach works.
  */
-public class MariaDbMySqlCommonRunner extends DialectRunnerBase {
+public class MariaDbMySqlRunner extends DialectRunnerBase {
 
   /***
    * Adjust primary key syntax so H2 likes them.

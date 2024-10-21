@@ -6,7 +6,7 @@ import com.deepblue.h2echo.H2Echo;
 import com.deepblue.h2echo.annotations.EchoDao;
 import com.deepblue.h2echo.test.dao.beans.NrmCallGroup;
 import com.deepblue.h2echo.test.utils.GeneralUtils;
-import com.deepblue.h2echo.testsupport.TestUtils;
+import com.deepblue.h2echo.test.support.TestUtils;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;

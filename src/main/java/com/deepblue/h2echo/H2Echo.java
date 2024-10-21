@@ -133,13 +133,13 @@ public class H2Echo {
     DialectRunnerBase dialectRunner = null;
 
     if (syntax == ScriptSyntax.H2)
-      dialectRunner = new H2DialectRunner();
+      dialectRunner = new H2Runner();
     else if (syntax == ScriptSyntax.MYSQL)
-      dialectRunner = new MySqlDialectRunner();
+      dialectRunner = new MySqlRunner();
     else if (syntax == ScriptSyntax.MARIA_DB)
-      dialectRunner = new MariaDbDialectRunner();
+      dialectRunner = new MariaDbRunner();
     else
-      dialectRunner = new MariaDbDialectRunner();
+      dialectRunner = new MariaDbRunner();
 
     // Get a list of SQL scripts and sort them by "Vnn.mm__". prefix.
     File[] fileList = getFileList(scriptPath);

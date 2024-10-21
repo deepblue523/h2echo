@@ -6,8 +6,8 @@ import com.deepblue.h2echo.annotations.EnableH2Echo;
 import com.deepblue.h2echo.test.dao.beans.NrmAuditResult;
 import com.deepblue.h2echo.test.dao.beans.NrmCallGroup;
 import com.deepblue.h2echo.test.dao.beans.NrmPhoneNumber;
+import com.deepblue.h2echo.test.support.TestUtils;
 import com.deepblue.h2echo.test.utils.GeneralUtils;
-import com.deepblue.h2echo.testsupport.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
