@@ -1,19 +1,19 @@
 # Overview
-This simple-to-use facility, `h2echo`, is designed to magnify the power of unit testing by 
+This simple-to-use facility, `H2Echo`, is designed to magnify the power of unit testing by 
 allowing tests to run real SQL in place of only mocking.  This makes it possible to test the SQL itself, plus ancillary things like result set field mapping and key generation, instead of just the thin DAO code. Without this ability unit tests are mocking and verifying against the same fake values, making the tests unscientific because they are unfalsifiable. 
 
-## Flyway Scripts 
+## SQL Scripts 
 The SQL scripts are executed against an embedded H2 database in a manner that is mostly transparent to testing code. Here's a high-level explanation of the code:
 
-The `h2echo` class provides utility methods to run Flyway migration scripts on an H2 database to create a fresh schema for unit tests. This allows tests to run against a known database state without needing a separate set of scripts specifically for H2.
+The `H2Echo` class provides utility methods to run SQL scripts on an H2 database to create a fresh schema for unit tests. This allows tests to run against a known database state without needing a separate set of scripts specifically for H2.
 
-# Flyway Scripts Handling
-1. File Retrieval: The method  `getFileList`  retrieves a list of migration script files from a specified resource directory.
-*Sorting 
-2. The  `sortFlywayScriptsByVersion`  method sorts these scripts numerically by their version, extracted from the filename (e.g.,  `V1.0__script.sql` ).
+# SQL Scripts Handling
+1.File Retrieval: The method  `getFileList`  retrieves a list of SQL script files from a specified resource directory.
+
+2. The  `sortFlywayScriptsByVersion`  method sorts these scripts numerically by their version, extracted from the filename (e.g.,  `V1.0__script.sql` ).  This sorting scheme is compatible with Flyway's default behavior, but may be extended later to support other schemes.
 
 3. Running Scripts:
-    - Main Execution: The core method  `runFlywayScriptsOnH2`  processes each script, adjusting SQL syntax where necessary to accommodate H2's limitations compared to MariaDB.
+    - Main Execution: The core method  `runSqlScriptsOnH2`  processes each script, adjusting SQL syntax where necessary to accommodate H2's limitations compared to MariaDB.
     - Adjustments: The method makes several adjustments to SQL statements, such as:
         - Modifying primary key syntax.
         - Removing unsupported features like triggers and stored procedures.
@@ -23,31 +23,31 @@ The `h2echo` class provides utility methods to run Flyway migration scripts on a
 4. Error Handling: Errors encountered during SQL execution are logged but do not stop the process. This approach allows the script to continue running even if some statements fail.
 
 5. Utility Methods:
-    - Several private methods assist in SQL transformation, such as  `adjustPrimaryKeySyntax` ,  `removeIndexes` , and  `breakAlterIntoSmallerPieces` .
+    - Several private methods assist in SQL transformation, such as  `adjustPrimaryKeySyntax` ,  `removeIndexes` , and  `breakAlterIntoSmallerPieces`.  These adjustments are specific to
+      MariaDB -> H2, and others can be added in the future.
 
-6. Running on Fresh Database: The  `runFlywayScripts`  method ensures a clean database state by dropping and recreating the schema before running the scripts. It uses the sorted list of scripts and executes them in order.
+6. Running on Fresh Database: The  `runFlywayScripts`  is idempotent, meaning it can be run multiple times without causing problems.  It will skip any scripts that have already been run and run new ones.~~~~
 
 7. Logging: The class provides optional logging of script execution details, which can be toggled via a method parameter. This logging includes summaries of executed SQL statements, skipped statements, and any errors encountered.
 
-Overall, this utility class is designed to streamline the process of setting up a test database environment by automating the execution and adaptation of Flyway migration scripts for use with an H2 database.
+Overall, this utility class is designed to streamline the process of setting up a test database environment by automating the execution and adaptation of SQL SQL scripts for use with an H2 database.
 
 ## Usage
 
-The following code snippet shows how to use the utility class to run Flyway scripts on a fresh H2 database.  This example is a JUnit test class that is testing DAOs.  
+The following code snippet shows how to use the utility class to run SQL scripts on a fresh H2 database.  This example is a JUnit test class that is testing DAOs.  
 
 ```java
+// Things like the script path can be specified if they deviate from the default.
+@EnableH2Echo
 class MyDaoTests {
 
-    private JdbcTemplate jdbcTemplate;
+    // Defaults can be overridden on annotations here as well.
+    @EchoDao
     private MyDao myDao;
 
-    // This method is the only part different from a normal test.  It's a little more complicated because autowiring doesn't work in this case.
     public MyDaoTests() {
-        this.myDao = (MyDao)
-            ConfigForTests.createDaoPossiblyLinkedToH2(MyDao.class);
-
-        h2echo.runFlywayScripts(
-                this.myDao.jdbcTemplate, true);
+       // Does stuff based upon annotations.
+       echoDaosOnObject(this, true); 
     }
 
     @Test
@@ -68,15 +68,10 @@ class MyDaoTests {
 
 ## Advantages
 * The test itself does not require mocking and thus is extremely simple.
+* The test code looks exactly like actual Production code that would use the Daos.
 * It tests an actually functioning DAO that uses its SQL.
-* Things such as SQL grammar issues will be detected.
-* Uses the same Flyway scripts as the production database.
+* Things such as SQL grammar issues will be detected with some limitations.
+* Uses the same SQL scripts as the production database, with some modifications.
 
 ## Disadvantages
-* It is a bit more complicated to set up.
-* There is small possibly of script failures or H2 syntax translation issues while applying the Flyway scripts on H2. These could cause a very small number of tests types to not work, though this will show up during test development.  In this case mocks would be required for that test.
-
-## Settings
-The following settings are available to customize the utility class.
-* ``test.db.tests.useh2echo=true`` enables/disables the use of Flyway scripts on H2.
-* ``test.db.tests.flyway.scripts.path`` sets the path to the Flyway scripts.  When enabled it performs the activity described in this document.  When disabled, H2 is not used and everything goes through the actual DB.
+There is small possibly of script failures or H2 syntax translation issues while applying the SQL scripts on H2. These could cause a very small number of tests types to not work, though this will show up during test development.  In this case mocks would be required for that test.

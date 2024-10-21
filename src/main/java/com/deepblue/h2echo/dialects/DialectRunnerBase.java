@@ -84,16 +84,16 @@ public abstract class DialectRunnerBase {
     }
 
     /***
-     * Run Flyway scripts on an H2 database.  This is a bit of a hack, but it's
+     * Run SQL scripts on an H2 database.  This is a bit of a hack, but it's
      * necessary because H2 doesn't support all the SQL syntax that MariaDB
      * does.  So we need to make some adjustments to the SQL before running it.
      * <p>
      * The nice thing about this method is that it is very  to use.  There is no
      * setup - secrets, variables, nothing.  It just runs.
      * <p>
-     * Given a list of Flyway scripts, this method does the following types of things:
+     * Given a list of SQL scripts, this method does the following types of things:
      * <p>
-     *    * Iterates through each Flyway script file, reads its contents, and processes
+     *    * Iterates through each SQL script file, reads its contents, and processes
      *      the SQL statements.  For each one, it performs various adjustments to the SQL
      *      statements to make them compatible with H2 database:
      * <p>
@@ -137,7 +137,7 @@ public abstract class DialectRunnerBase {
      * @param jdbcTemplate The JDBC template to use.
      * @param fileList The list of script files to run.
      */
-    public void runFlywayScriptsOnH2(
+    public void runSqlScriptsOnH2(
             JdbcTemplate jdbcTemplate, File[] fileList, boolean displayLog) {
         // Load each script.
         int totalStmtsSkipped = 0;
@@ -146,7 +146,7 @@ public abstract class DialectRunnerBase {
         List<String> errorLogList = new ArrayList<String>();
         int totalErrors = 0;
 
-        // ---[ Look at each Flyway script file ]---
+        // ---[ Look at each SQL script file ]---
         // At this point this should be sorted by version.
         for (File file : fileList) {
             // Let's not execute the same scri[t more than once.
@@ -170,7 +170,7 @@ public abstract class DialectRunnerBase {
                 throw new UncheckedIOException(e);
             }
 
-            // ---[ Split into individual SQL statements from Flyway script]---
+            // ---[ Split into individual SQL statements from SQL script]---
             // Break on the ';' character ... and remove any leading spaces ...
             // ... and condense spaces ... and convert to uppercase for easier RegEx/parsing.
             boolean insideSprocDef = false;

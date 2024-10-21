@@ -15,7 +15,7 @@ import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@EnableH2Echo(scriptPath = "flyway/migrations")
+@EnableH2Echo(scriptPath = "SQL/migrations")
 class NrmAuditResultsDaoTest {
 
     @EchoDao

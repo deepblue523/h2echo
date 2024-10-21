@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface EnableH2Echo {
     ScriptSyntax syntax() default ScriptSyntax.MARIA_DB;
-    String scriptPath() default "flyway/migrations";
+    String scriptPath() default "SQL/migrations";
 }

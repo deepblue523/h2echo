@@ -19,7 +19,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON voice.* TO '${db_username}'@'localhost';
 CREATE USER IF NOT EXISTS '${db_admin_username}'@'localhost' IDENTIFIED BY '${db_admin_password}';
 CREATE USER IF NOT EXISTS '${db_admin_username}'@'%' IDENTIFIED BY '${db_admin_password}';
 #
-# -- Grant Permissions to flyway user
+# -- Grant Permissions to SQL user
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, TRIGGER
     ON `${db_schema}`.* TO '${db_admin_username}'@'localhost', '${db_admin_username}'@'%';
 FLUSH PRIVILEGES;
