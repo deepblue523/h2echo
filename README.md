@@ -1,11 +1,11 @@
 # Overview
-This simple-to-use facility, `FlywayChimp`, is designed to magnify the power of unit testing by 
+This simple-to-use facility, `h2echo`, is designed to magnify the power of unit testing by 
 allowing tests to run real SQL in place of only mocking.  This makes it possible to test the SQL itself, plus ancillary things like result set field mapping and key generation, instead of just the thin DAO code. Without this ability unit tests are mocking and verifying against the same fake values, making the tests unscientific because they are unfalsifiable. 
 
 ## Flyway Scripts 
 The SQL scripts are executed against an embedded H2 database in a manner that is mostly transparent to testing code. Here's a high-level explanation of the code:
 
-The `FlywayChimp` class provides utility methods to run Flyway migration scripts on an H2 database to create a fresh schema for unit tests. This allows tests to run against a known database state without needing a separate set of scripts specifically for H2.
+The `h2echo` class provides utility methods to run Flyway migration scripts on an H2 database to create a fresh schema for unit tests. This allows tests to run against a known database state without needing a separate set of scripts specifically for H2.
 
 # Flyway Scripts Handling
 1. File Retrieval: The method  `getFileList`  retrieves a list of migration script files from a specified resource directory.
@@ -46,7 +46,7 @@ class MyDaoTests {
         this.myDao = (MyDao)
             ConfigForTests.createDaoPossiblyLinkedToH2(MyDao.class);
 
-        FlywayChimp.runFlywayScripts(
+        h2echo.runFlywayScripts(
                 this.myDao.jdbcTemplate, true);
     }
 
@@ -78,5 +78,5 @@ class MyDaoTests {
 
 ## Settings
 The following settings are available to customize the utility class.
-* ``nrm.db.tests.useFlywayChimp=true`` enables/disables the use of Flyway scripts on H2.
-* ``nrm.db.tests.flyway.scripts.path`` sets the path to the Flyway scripts.  When enabled it performs the activity described in this document.  When disabled, H2 is not used and everything goes through the actual DB.
+* ``test.db.tests.useh2echo=true`` enables/disables the use of Flyway scripts on H2.
+* ``test.db.tests.flyway.scripts.path`` sets the path to the Flyway scripts.  When enabled it performs the activity described in this document.  When disabled, H2 is not used and everything goes through the actual DB.

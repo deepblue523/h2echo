@@ -1,4 +1,4 @@
-package com.jkessler523.flywaychimp;
+package com.deepblue.h2echo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

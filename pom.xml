@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>jkessler523.flywaychimp</groupId>
-    <artifactId>flywaychimp</artifactId>
+    <groupId>deepblue.h2echo</groupId>
+    <artifactId>h2echo</artifactId>
     <version>1.0.5-SNAPSHOT</version>
-    <name>flywaychimp</name>
+    <name>h2echo</name>
     <description/>
 
     <properties>
@@ -26,6 +26,16 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.5.2</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
