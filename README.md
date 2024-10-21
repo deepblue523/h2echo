@@ -68,10 +68,11 @@ class MyDaoTests {
 
 ## Advantages
 * The test itself does not require mocking and thus is extremely simple.
-* The test code looks exactly like actual Production code that would use the Daos.
+* The test code looks exactly like actual Production code that would use the DAOs.
 * It tests an actually functioning DAO that uses its SQL.
 * Things such as SQL grammar issues will be detected with some limitations.
 * Uses the same SQL scripts as the production database, with some modifications.
+* Enables black box testing for any DAO, bypassing any need to adjust DAOs themselves~~~~ for testing.
 
 ## Disadvantages
 There is small possibly of script failures or H2 syntax translation issues while applying the SQL scripts on H2. These could cause a very small number of tests types to not work, though this will show up during test development.  In this case mocks would be required for that test.
